@@ -1,0 +1,1092 @@
+<!DOCTYPE html>
+<html lang="sq">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Restorant Alteo – Freskia e Detit në Tavolinat Tona</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gold: #c9a96e;
+    --gold-light: #e8d5aa;
+    --dark: #0a0a0a;
+    --dark-2: #111111;
+    --dark-3: #1a1a1a;
+    --text: #e8e0d0;
+    --text-muted: #8a8070;
+    --white: #f5f0e8;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--dark);
+    color: var(--text);
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 300;
+    overflow-x: hidden;
+    cursor: none;
+  }
+
+  /* Custom cursor */
+  .cursor {
+    width: 8px; height: 8px;
+    background: var(--gold);
+    border-radius: 50%;
+    position: fixed;
+    pointer-events: none;
+    z-index: 9999;
+    transform: translate(-50%,-50%);
+    transition: transform 0.1s;
+  }
+  .cursor-ring {
+    width: 32px; height: 32px;
+    border: 1px solid var(--gold);
+    border-radius: 50%;
+    position: fixed;
+    pointer-events: none;
+    z-index: 9998;
+    transform: translate(-50%,-50%);
+    transition: all 0.15s ease;
+    opacity: 0.6;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0;
+    z-index: 100;
+    padding: 24px 60px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: linear-gradient(to bottom, rgba(10,10,10,0.95), transparent);
+    transition: all 0.4s;
+  }
+  nav.scrolled {
+    background: rgba(10,10,10,0.97);
+    padding: 16px 60px;
+    border-bottom: 1px solid rgba(201,169,110,0.15);
+  }
+  .nav-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 28px;
+    font-weight: 300;
+    letter-spacing: 6px;
+    color: var(--gold);
+    text-decoration: none;
+    text-transform: uppercase;
+  }
+  .nav-links {
+    display: flex; gap: 40px; list-style: none;
+  }
+  .nav-links a {
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    transition: color 0.3s;
+  }
+  .nav-links a:hover { color: var(--gold); }
+  .nav-cta {
+    background: transparent;
+    border: 1px solid var(--gold);
+    color: var(--gold);
+    padding: 10px 28px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    cursor: none;
+    transition: all 0.3s;
+    text-decoration: none;
+  }
+  .nav-cta:hover { background: var(--gold); color: var(--dark); }
+
+  /* HERO */
+  .hero {
+    height: 100vh;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+  .hero-bg {
+    position: absolute; inset: 0;
+    background: 
+      radial-gradient(ellipse at 20% 50%, rgba(201,169,110,0.08) 0%, transparent 60%),
+      radial-gradient(ellipse at 80% 20%, rgba(201,169,110,0.05) 0%, transparent 50%),
+      linear-gradient(135deg, #0a0a0a 0%, #111008 50%, #0a0a0a 100%);
+  }
+  .hero-texture {
+    position: absolute; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23c9a96e' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    opacity: 0.4;
+  }
+  .hero-line-left {
+    position: absolute;
+    left: 60px; top: 0; bottom: 0;
+    width: 1px;
+    background: linear-gradient(to bottom, transparent, rgba(201,169,110,0.3), transparent);
+  }
+  .hero-line-right {
+    position: absolute;
+    right: 60px; top: 0; bottom: 0;
+    width: 1px;
+    background: linear-gradient(to bottom, transparent, rgba(201,169,110,0.3), transparent);
+  }
+  .hero-content {
+    position: relative;
+    text-align: center;
+    animation: heroFadeIn 1.6s ease forwards;
+  }
+  @keyframes heroFadeIn {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .hero-label {
+    font-size: 11px;
+    letter-spacing: 6px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 24px;
+    display: block;
+  }
+  .hero-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(80px, 12vw, 160px);
+    font-weight: 300;
+    line-height: 0.9;
+    color: var(--white);
+    letter-spacing: -2px;
+    margin-bottom: 8px;
+  }
+  .hero-title em {
+    font-style: italic;
+    color: var(--gold);
+  }
+  .hero-subtitle {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(18px, 2.5vw, 28px);
+    font-style: italic;
+    color: var(--text-muted);
+    margin: 20px 0 50px;
+    letter-spacing: 2px;
+  }
+  .hero-actions {
+    display: flex; gap: 20px; justify-content: center; align-items: center;
+  }
+  .btn-primary {
+    background: var(--gold);
+    color: var(--dark);
+    padding: 16px 44px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 10px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: all 0.3s;
+    font-weight: 500;
+  }
+  .btn-primary:hover { background: var(--gold-light); transform: translateY(-2px); }
+  .btn-secondary {
+    color: var(--text-muted);
+    padding: 16px 0;
+    font-size: 10px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    text-decoration: none;
+    border-bottom: 1px solid rgba(201,169,110,0.3);
+    transition: all 0.3s;
+  }
+  .btn-secondary:hover { color: var(--gold); border-color: var(--gold); }
+
+  .hero-scroll {
+    position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%);
+    display: flex; flex-direction: column; align-items: center; gap: 8px;
+    color: var(--text-muted); font-size: 9px; letter-spacing: 3px; text-transform: uppercase;
+  }
+  .hero-scroll-line {
+    width: 1px; height: 50px;
+    background: linear-gradient(to bottom, var(--gold), transparent);
+    animation: scrollLine 2s ease-in-out infinite;
+  }
+  @keyframes scrollLine {
+    0%, 100% { opacity: 0.3; transform: scaleY(1); }
+    50% { opacity: 1; transform: scaleY(1.2); }
+  }
+
+  /* SECTION COMMONS */
+  section { position: relative; }
+  .section-label {
+    font-size: 10px; letter-spacing: 5px; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 16px; display: block;
+  }
+  .section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(40px, 6vw, 72px);
+    font-weight: 300; line-height: 1.1;
+    color: var(--white);
+  }
+  .section-title em { font-style: italic; color: var(--gold); }
+  .divider {
+    width: 60px; height: 1px;
+    background: var(--gold); margin: 28px 0;
+  }
+
+  /* ABOUT */
+  .about {
+    padding: 140px 60px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 120px;
+    align-items: center;
+  }
+  .about-visual {
+    position: relative;
+  }
+  .about-img-frame {
+    width: 100%; aspect-ratio: 3/4;
+    background: var(--dark-3);
+    position: relative;
+    overflow: hidden;
+  }
+  .about-img-frame::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(135deg, rgba(201,169,110,0.15) 0%, transparent 60%);
+    z-index: 1;
+  }
+  .fish-icon {
+    position: absolute; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+    z-index: 2;
+  }
+  .fish-icon svg { width: 120px; opacity: 0.15; }
+  .about-img-accent {
+    position: absolute;
+    bottom: -30px; right: -30px;
+    width: 60%; aspect-ratio: 1;
+    background: var(--dark-2);
+    border: 1px solid rgba(201,169,110,0.2);
+    z-index: -1;
+  }
+  .about-img-border {
+    position: absolute;
+    top: -20px; left: -20px;
+    right: 20px; bottom: 20px;
+    border: 1px solid rgba(201,169,110,0.15);
+    pointer-events: none;
+  }
+  .about-text p {
+    font-size: 15px; line-height: 1.9;
+    color: var(--text-muted); margin-bottom: 20px;
+  }
+  .about-stats {
+    display: flex; gap: 40px; margin-top: 50px;
+  }
+  .stat { border-top: 1px solid rgba(201,169,110,0.3); padding-top: 20px; }
+  .stat-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 48px; font-weight: 300;
+    color: var(--gold); line-height: 1;
+  }
+  .stat-label {
+    font-size: 10px; letter-spacing: 2px;
+    text-transform: uppercase; color: var(--text-muted);
+    margin-top: 8px;
+  }
+
+  /* INFO STRIP */
+  .info-strip {
+    background: var(--dark-2);
+    border-top: 1px solid rgba(201,169,110,0.15);
+    border-bottom: 1px solid rgba(201,169,110,0.15);
+    padding: 50px 60px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+  }
+  .info-item {
+    padding: 0 40px;
+    border-right: 1px solid rgba(201,169,110,0.15);
+    text-align: center;
+  }
+  .info-item:first-child { padding-left: 0; }
+  .info-item:last-child { border-right: none; padding-right: 0; }
+  .info-icon { font-size: 24px; margin-bottom: 16px; color: var(--gold); }
+  .info-title {
+    font-size: 10px; letter-spacing: 3px; text-transform: uppercase;
+    color: var(--text-muted); margin-bottom: 8px;
+  }
+  .info-value {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px; color: var(--white); font-weight: 300;
+  }
+  .info-sub { font-size: 11px; color: var(--text-muted); margin-top: 4px; }
+
+  /* MENU */
+  .menu-section {
+    padding: 140px 60px;
+    background: var(--dark);
+  }
+  .menu-header {
+    text-align: center; margin-bottom: 80px;
+  }
+  .menu-tabs {
+    display: flex; justify-content: center; gap: 0;
+    margin-top: 50px;
+    border-bottom: 1px solid rgba(201,169,110,0.2);
+  }
+  .menu-tab {
+    padding: 14px 36px;
+    font-size: 10px; letter-spacing: 3px; text-transform: uppercase;
+    color: var(--text-muted);
+    cursor: none; background: none; border: none;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -1px;
+    transition: all 0.3s;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 400;
+  }
+  .menu-tab:hover { color: var(--gold); }
+  .menu-tab.active { color: var(--gold); border-bottom-color: var(--gold); }
+  .menu-content { display: none; animation: fadeTab 0.5s ease; }
+  .menu-content.active { display: block; }
+  @keyframes fadeTab { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+  .menu-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0;
+    margin-top: 60px;
+  }
+  .menu-category {
+    padding: 50px; border-bottom: 1px solid rgba(201,169,110,0.1);
+    border-right: 1px solid rgba(201,169,110,0.1);
+  }
+  .menu-category:nth-child(2n) { border-right: none; }
+  .menu-category:last-child, .menu-category:nth-last-child(2) { border-bottom: none; }
+  .menu-cat-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 28px; font-weight: 300; color: var(--white);
+    margin-bottom: 30px; padding-bottom: 16px;
+    border-bottom: 1px solid rgba(201,169,110,0.2);
+    letter-spacing: 2px;
+  }
+  .menu-note {
+    font-size: 11px; color: var(--text-muted); font-style: italic;
+    margin-bottom: 20px; line-height: 1.6;
+  }
+  .menu-item {
+    display: flex; justify-content: space-between; align-items: baseline;
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    gap: 20px;
+  }
+  .menu-item:last-child { border-bottom: none; }
+  .menu-item-name {
+    font-size: 13px; color: var(--text); letter-spacing: 0.5px;
+  }
+  .menu-item-dots {
+    flex: 1; border-bottom: 1px dotted rgba(201,169,110,0.2);
+    margin: 0 12px; margin-bottom: 4px;
+  }
+  .menu-item-price {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 16px; color: var(--gold); white-space: nowrap;
+  }
+  .menu-full-page {
+    padding: 50px 0; max-width: 900px; margin: 0 auto;
+  }
+  .menu-full-page .menu-cat-title {
+    text-align: center; font-size: 32px; letter-spacing: 4px; margin-bottom: 40px;
+  }
+  .wine-note {
+    background: rgba(201,169,110,0.05); border: 1px solid rgba(201,169,110,0.15);
+    padding: 20px 30px; margin-bottom: 30px;
+    font-size: 12px; color: var(--text-muted); font-style: italic;
+    text-align: center; line-height: 1.7;
+  }
+
+  /* GALLERY */
+  .gallery {
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: 400px 400px;
+  }
+  .gallery-item {
+    background: var(--dark-3);
+    position: relative; overflow: hidden;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .gallery-item:first-child { grid-column: 1 / 3; }
+  .gallery-item:nth-child(4) { grid-column: 2 / 4; }
+  .gallery-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(to top, rgba(10,10,10,0.7), transparent);
+    opacity: 0;
+    transition: opacity 0.4s;
+    display: flex; align-items: flex-end; padding: 30px;
+  }
+  .gallery-item:hover .gallery-overlay { opacity: 1; }
+  .gallery-label {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 24px; color: var(--white); font-style: italic;
+  }
+  .gallery-placeholder {
+    width: 100%; height: 100%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 60px; opacity: 0.15; color: var(--gold);
+  }
+
+  /* CONTACT */
+  .contact {
+    padding: 140px 60px;
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 100px; align-items: start;
+  }
+  .contact-info { }
+  .contact-detail {
+    margin-top: 40px;
+    display: flex; flex-direction: column; gap: 28px;
+  }
+  .contact-row {
+    display: flex; gap: 20px; align-items: flex-start;
+    padding-bottom: 28px; border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+  .contact-row:last-child { border-bottom: none; }
+  .contact-icon { color: var(--gold); font-size: 18px; margin-top: 2px; min-width: 24px; }
+  .contact-label { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--text-muted); margin-bottom: 4px; }
+  .contact-val { font-family: 'Cormorant Garamond', serif; font-size: 20px; color: var(--white); }
+  .contact-val a { color: var(--gold); text-decoration: none; }
+
+  .reservation-form {
+    background: var(--dark-2);
+    padding: 50px;
+    border: 1px solid rgba(201,169,110,0.15);
+  }
+  .form-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 32px; color: var(--white); margin-bottom: 30px;
+  }
+  .form-group { margin-bottom: 24px; }
+  .form-label {
+    display: block; font-size: 10px; letter-spacing: 2px;
+    text-transform: uppercase; color: var(--text-muted); margin-bottom: 10px;
+  }
+  .form-input {
+    width: 100%; background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(201,169,110,0.2);
+    padding: 14px 18px; color: var(--text);
+    font-family: 'Montserrat', sans-serif; font-size: 13px;
+    outline: none; transition: border-color 0.3s;
+  }
+  .form-input:focus { border-color: var(--gold); }
+  .form-input::placeholder { color: var(--text-muted); }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .btn-submit {
+    width: 100%; background: var(--gold); color: var(--dark);
+    border: none; padding: 18px;
+    font-family: 'Montserrat', sans-serif; font-size: 11px;
+    letter-spacing: 4px; text-transform: uppercase;
+    cursor: none; font-weight: 500;
+    transition: all 0.3s;
+  }
+  .btn-submit:hover { background: var(--gold-light); transform: translateY(-2px); }
+
+  /* MAP PLACEHOLDER */
+  .map-section {
+    height: 400px;
+    background: var(--dark-2);
+    position: relative; overflow: hidden;
+    display: flex; align-items: center; justify-content: center;
+    border-top: 1px solid rgba(201,169,110,0.15);
+    border-bottom: 1px solid rgba(201,169,110,0.15);
+  }
+  .map-overlay-text {
+    text-align: center; z-index: 2; position: relative;
+  }
+  .map-overlay-text .section-label { margin-bottom: 12px; }
+  .map-address {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 28px; color: var(--white);
+  }
+  .map-link {
+    display: inline-block; margin-top: 20px;
+    color: var(--gold); font-size: 11px; letter-spacing: 3px;
+    text-transform: uppercase; text-decoration: none;
+    border-bottom: 1px solid rgba(201,169,110,0.4);
+    padding-bottom: 4px;
+    transition: all 0.3s;
+  }
+  .map-link:hover { border-color: var(--gold); }
+  .map-grid-bg {
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(rgba(201,169,110,0.06) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(201,169,110,0.06) 1px, transparent 1px);
+    background-size: 60px 60px;
+  }
+
+  /* FOOTER */
+  footer {
+    background: var(--dark-2);
+    padding: 60px;
+    display: flex; justify-content: space-between; align-items: center;
+    border-top: 1px solid rgba(201,169,110,0.1);
+  }
+  .footer-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 32px; color: var(--gold); letter-spacing: 4px;
+    text-transform: uppercase; font-weight: 300;
+  }
+  .footer-tagline {
+    font-size: 11px; color: var(--text-muted);
+    font-style: italic; margin-top: 6px; font-family: 'Cormorant Garamond', serif;
+  }
+  .footer-links {
+    display: flex; gap: 32px; list-style: none;
+  }
+  .footer-links a {
+    font-size: 10px; letter-spacing: 2px; text-transform: uppercase;
+    color: var(--text-muted); text-decoration: none;
+    transition: color 0.3s;
+  }
+  .footer-links a:hover { color: var(--gold); }
+  .footer-social {
+    display: flex; gap: 16px;
+  }
+  .social-link {
+    width: 40px; height: 40px;
+    border: 1px solid rgba(201,169,110,0.3);
+    display: flex; align-items: center; justify-content: center;
+    color: var(--text-muted); text-decoration: none;
+    font-size: 14px;
+    transition: all 0.3s;
+  }
+  .social-link:hover { border-color: var(--gold); color: var(--gold); }
+  .footer-copy {
+    font-size: 10px; color: var(--text-muted); letter-spacing: 1px; margin-top: 4px;
+  }
+
+  /* DECORATIVE */
+  .ornament {
+    text-align: center; color: rgba(201,169,110,0.3);
+    font-size: 32px; letter-spacing: 8px; margin: 20px 0;
+  }
+
+  /* Fade-in on scroll */
+  .fade-in { opacity: 0; transform: translateY(30px); transition: all 0.8s ease; }
+  .fade-in.visible { opacity: 1; transform: translateY(0); }
+
+  @media (max-width: 768px) {
+    nav { padding: 20px 24px; }
+    nav.scrolled { padding: 14px 24px; }
+    .nav-links { display: none; }
+    .hero-title { font-size: 64px; }
+    .about, .contact { grid-template-columns: 1fr; padding: 80px 24px; gap: 60px; }
+    .info-strip { grid-template-columns: repeat(2, 1fr); padding: 40px 24px; }
+    .info-item { padding: 20px; border-right: none; border-bottom: 1px solid rgba(201,169,110,0.1); }
+    .menu-section { padding: 80px 24px; }
+    .menu-grid { grid-template-columns: 1fr; }
+    .menu-category { padding: 30px 0; border-right: none; }
+    .gallery { grid-template-columns: 1fr 1fr; grid-template-rows: auto; }
+    .gallery-item:first-child, .gallery-item:nth-child(4) { grid-column: auto; }
+    footer { flex-direction: column; gap: 30px; text-align: center; padding: 40px 24px; }
+    .reservation-form { padding: 30px 24px; }
+    .form-row { grid-template-columns: 1fr; }
+    .hero-line-left, .hero-line-right { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- NAV -->
+<nav id="navbar">
+  <a href="#home" class="nav-logo">ALTEO</a>
+  <ul class="nav-links">
+    <li><a href="#about">Rreth Nesh</a></li>
+    <li><a href="#menu">Menu</a></li>
+    <li><a href="#gallery">Galeria</a></li>
+    <li><a href="#contact">Kontakt</a></li>
+  </ul>
+  <a href="#reservation" class="nav-cta">Rezervo Tavolinë</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-bg"></div>
+  <div class="hero-texture"></div>
+  <div class="hero-line-left"></div>
+  <div class="hero-line-right"></div>
+  <div class="hero-content">
+    <span class="hero-label">✦ Tirana, Shqipëri ✦</span>
+    <h1 class="hero-title">REST<em>OR</em>ANT<br>ALTEO</h1>
+    <p class="hero-subtitle">Freskia e Detit në Tavolinat Tona</p>
+    <div class="hero-actions">
+      <a href="#menu" class="btn-primary">Shiko Menunë</a>
+      <a href="#reservation" class="btn-secondary">Bëj Rezervim</a>
+    </div>
+  </div>
+  <div class="hero-scroll">
+    <div class="hero-scroll-line"></div>
+    <span>Zbulo</span>
+  </div>
+</section>
+
+<!-- INFO STRIP -->
+<div class="info-strip">
+  <div class="info-item">
+    <div class="info-icon">🕐</div>
+    <div class="info-title">Orari</div>
+    <div class="info-value">12:00 – 23:00</div>
+    <div class="info-sub">Çdo ditë</div>
+  </div>
+  <div class="info-item">
+    <div class="info-icon">📞</div>
+    <div class="info-title">Telefon</div>
+    <div class="info-value">069 703 0602</div>
+    <div class="info-sub">Rezervim & Delivery</div>
+  </div>
+  <div class="info-item">
+    <div class="info-icon">📍</div>
+    <div class="info-title">Adresa</div>
+    <div class="info-value">Rruga Kujtim Laro, 30</div>
+    <div class="info-sub">Tiranë, Shqipëri</div>
+  </div>
+  <div class="info-item">
+    <div class="info-icon">🛵</div>
+    <div class="info-title">Delivery</div>
+    <div class="info-value">Kudo ju Ndodheni</div>
+    <div class="info-sub">0696 191212 · 0699 935107</div>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<section class="about" id="about">
+  <div class="about-visual fade-in">
+    <div class="about-img-border"></div>
+    <div class="about-img-frame">
+      <div class="fish-icon">
+        <svg viewBox="0 0 100 60" fill="currentColor" style="color: var(--gold);">
+          <path d="M80,30 C80,30 95,15 100,10 C95,20 90,28 80,30 C90,32 95,40 100,50 C95,45 80,30 80,30 Z" opacity="0.6"/>
+          <ellipse cx="45" cy="30" rx="40" ry="20"/>
+          <circle cx="20" cy="25" r="3" fill="var(--dark)"/>
+        </svg>
+      </div>
+      <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:12px;">
+        <div style="font-size:80px;opacity:0.1;">🐟</div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:18px;color:rgba(201,169,110,0.4);letter-spacing:4px;text-transform:uppercase;">Peshk i Freskët</div>
+      </div>
+    </div>
+    <div class="about-img-accent"></div>
+  </div>
+  <div class="about-text fade-in">
+    <span class="section-label">✦ Historia Jonë</span>
+    <h2 class="section-title">Pasioni për <em>Detin</em></h2>
+    <div class="divider"></div>
+    <p>Restorant Alteo është destinacioni i zgjedhur për të gjithë dashamirët e peshkut dhe frutave të detit në Tiranë. Me një meny të pasur që ndryshon sipas stinës dhe disponibilitetit të produkteve të freskëta, ne ofrojmë një eksperiencë të paharrueshme gastronomike.</p>
+    <p>Çdo pjatë përgatitet me kujdes nga kuzhinierët tanë, duke respektuar shijen origjinale të detit dhe duke e kombinuar me teknika moderne gatimi. Gatimet tona furrë, zgare dhe tigan ruajnë esencën e autentikitetit.</p>
+    <p>Shërbimi ynë i delivery siguron që freskinë e kuzhinës sonë ta shijosh edhe nga komoditetit i shtëpisë tënde.</p>
+    <div class="about-stats">
+      <div class="stat">
+        <div class="stat-num">17K+</div>
+        <div class="stat-label">Ndjekës</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">375</div>
+        <div class="stat-label">Postime</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">11+</div>
+        <div class="stat-label">Vjet Eksperiencë</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MENU SECTION -->
+<section class="menu-section" id="menu">
+  <div class="menu-header fade-in">
+    <span class="section-label">✦ Kuzhinë Detare</span>
+    <h2 class="section-title">Menuja <em>Jonë</em></h2>
+    <div class="divider" style="margin: 28px auto;"></div>
+    <p style="color: var(--text-muted); font-size: 14px; max-width: 600px; margin: 0 auto; line-height: 1.8;">Çmimet e peshkut janë për kilogram. Gatimet ofrohen furrë me perime, furrë zgare, verë dhe limon, në tigan, ose pysni kamarierin për metodat disponibile.</p>
+  </div>
+
+  <div class="menu-tabs fade-in">
+    <button class="menu-tab active" onclick="switchTab('starters')">Fillese & Sallata</button>
+    <button class="menu-tab" onclick="switchTab('fish')">Peshku</button>
+    <button class="menu-tab" onclick="switchTab('wine')">Vera & Pije</button>
+    <button class="menu-tab" onclick="switchTab('dessert')">Ëmbëlsirat</button>
+  </div>
+
+  <!-- STARTERS -->
+  <div class="menu-content active" id="tab-starters">
+    <div class="menu-grid">
+      <div class="menu-category fade-in">
+        <h3 class="menu-cat-title">Brusketa</h3>
+        <div class="menu-item">
+          <span class="menu-item-name">Brusketa me Borzilok</span>
+          <span class="menu-item-dots"></span>
+          <span class="menu-item-price">250 L</span>
+        </div>
+        <div class="menu-item">
+          <span class="menu-item-name">Brusketa Acuge</span>
+          <span class="menu-item-dots"></span>
+          <span class="menu-item-price">400 L</span>
+        </div>
+        <div class="menu-item">
+          <span class="menu-item-name">Brusketa Salmon Philadelphia</span>
+          <span class="menu-item-dots"></span>
+          <span class="menu-item-price">550 L</span>
+        </div>
+      </div>
+      <div class="menu-category fade-in">
+        <h3 class="menu-cat-title">Supa</h3>
+        <div class="menu-item">
+          <span class="menu-item-name">Supë Peshku</span>
+          <span class="menu-item-dots"></span>
+          <span class="menu-item-price">400 L</span>
+        </div>
+        <div class="menu-item">
+          <span class="menu-item-name">Supë Fruta Deti</span>
+          <span class="menu-item-dots"></span>
+          <span class="menu-item-price">500 L</span>
+        </div>
+        <div class="menu-item">
+          <span class="menu-item-name">Supë Karkaleca</span>
+          <span class="menu-item-dots"></span>
+          <span class="menu-item-price">500 L</span>
+        </div>
+      </div>
+      <div class="menu-category fade-in" style="grid-column: 1 / -1;">
+        <h3 class="menu-cat-title">Sallata</h3>
+        <div class="menu-grid" style="margin-top: 0; grid-template-columns: 1fr 1fr;">
+          <div>
+            <div class="menu-item"><span class="menu-item-name">Sallatë Greke</span><span class="menu-item-dots"></span><span class="menu-item-price">400 L</span></div>
+            <div class="menu-item"><span class="menu-item-name">Sallatë Exotic</span><span class="menu-item-dots"></span><span class="menu-item-price">1,100 L</span></div>
+            <div class="menu-item"><span class="menu-item-name">Sallatë Jeshile</span><span class="menu-item-dots"></span><span class="menu-item-price">300 L</span></div>
+            <div class="menu-item"><span class="menu-item-name">Sallatë Mix</span><span class="menu-item-dots"></span><span class="menu-item-price">350 L</span></div>
+            <div class="menu-item"><span class="menu-item-name">Sallatë Ullinj</span><span class="menu-item-dots"></span><span class="menu-item-price">250 L</span></div>
+          </div>
+          <div>
+            <div class="menu-item"><span class="menu-item-name">Sallatë Rukola</span><span class="menu-item-dots"></span><span class="menu-item-price">500 L</span></div>
+            <div class="menu-item"><span class="menu-item-name">Sallatë Rukola, Oktapod</span><span class="menu-item-dots"></span><span class="menu-item-price">600 L</span></div>
+            <div class="menu-item"><span class="menu-item-name">Sallatë Çezar, Karkalec</span><span class="menu-item-dots"></span><span class="menu-item-price">500 L</span></div>
+            <div class="menu-item"><span class="menu-item-name">Sallatë Alteo</span><span class="menu-item-dots"></span><span class="menu-item-price">700 L</span></div>
+            <div class="menu-item"><span class="menu-item-name">Patate Frite / Djathë</span><span class="menu-item-dots"></span><span class="menu-item-price">250 L</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FISH -->
+  <div class="menu-content" id="tab-fish">
+    <div class="menu-grid">
+      <div class="menu-category fade-in">
+        <h3 class="menu-cat-title">Peshku <span style="font-size:14px;color:var(--text-muted)">(lek/kg)</span></h3>
+        <div class="menu-item"><span class="menu-item-name">Barbun I Kuq</span><span class="menu-item-dots"></span><span class="menu-item-price">3,200</span></div>
+        <div class="menu-item"><span class="menu-item-name">Barbun Extra</span><span class="menu-item-dots"></span><span class="menu-item-price">2,700</span></div>
+        <div class="menu-item"><span class="menu-item-name">Barbun</span><span class="menu-item-dots"></span><span class="menu-item-price">2,200</span></div>
+        <div class="menu-item"><span class="menu-item-name">Bretkosa</span><span class="menu-item-dots"></span><span class="menu-item-price">2,100</span></div>
+        <div class="menu-item"><span class="menu-item-name">Gaforre</span><span class="menu-item-dots"></span><span class="menu-item-price">1,500</span></div>
+        <div class="menu-item"><span class="menu-item-name">Kallamarë</span><span class="menu-item-dots"></span><span class="menu-item-price">2,600</span></div>
+        <div class="menu-item"><span class="menu-item-name">Karkaleca</span><span class="menu-item-dots"></span><span class="menu-item-price">2,600</span></div>
+        <div class="menu-item"><span class="menu-item-name">Koce</span><span class="menu-item-dots"></span><span class="menu-item-price">2,000</span></div>
+        <div class="menu-item"><span class="menu-item-name">Levrek</span><span class="menu-item-dots"></span><span class="menu-item-price">2,000</span></div>
+        <div class="menu-item"><span class="menu-item-name">Merluc</span><span class="menu-item-dots"></span><span class="menu-item-price">2,100</span></div>
+        <div class="menu-item"><span class="menu-item-name">Sepie</span><span class="menu-item-dots"></span><span class="menu-item-price">2,100</span></div>
+        <div class="menu-item"><span class="menu-item-name">Oktapod</span><span class="menu-item-dots"></span><span class="menu-item-price">6,000</span></div>
+        <div class="menu-item"><span class="menu-item-name">Kallamarë I Butë</span><span class="menu-item-dots"></span><span class="menu-item-price">3,300</span></div>
+      </div>
+      <div class="menu-category fade-in">
+        <h3 class="menu-cat-title">Peshku Egër <span style="font-size:14px;color:var(--text-muted)">(lek/kg)</span></h3>
+        <p class="menu-note">Gatimi furrë perime, furrë zgare, verë dhe limon, në tigan, pyesni kamarierin për peshkun në ekspozitor dhe gatimin e tyre</p>
+        <div class="menu-item"><span class="menu-item-name">Gjel i Egër Fileto</span><span class="menu-item-dots"></span><span class="menu-item-price">4,500</span></div>
+        <div class="menu-item"><span class="menu-item-name">Gjel</span><span class="menu-item-dots"></span><span class="menu-item-price">3,900</span></div>
+        <div class="menu-item"><span class="menu-item-name">Arragosta</span><span class="menu-item-dots"></span><span class="menu-item-price">10,000</span></div>
+        <div class="menu-item"><span class="menu-item-name">Astice</span><span class="menu-item-dots"></span><span class="menu-item-price">13,000</span></div>
+        <div class="menu-item"><span class="menu-item-name">Gjinkalla</span><span class="menu-item-dots"></span><span class="menu-item-price">12,000</span></div>
+        <div class="menu-item"><span class="menu-item-name">Bishtzeza</span><span class="menu-item-dots"></span><span class="menu-item-price">5,000</span></div>
+        <div class="menu-item"><span class="menu-item-name">Dental</span><span class="menu-item-dots"></span><span class="menu-item-price">5,800</span></div>
+        <div class="menu-item"><span class="menu-item-name">Fagri</span><span class="menu-item-dots"></span><span class="menu-item-price">3,700</span></div>
+        <div class="menu-item"><span class="menu-item-name">Gjuza Extra</span><span class="menu-item-dots"></span><span class="menu-item-price">3,900</span></div>
+        <div class="menu-item"><span class="menu-item-name">Karkalec Tigër / Toke</span><span class="menu-item-dots"></span><span class="menu-item-price">5,700</span></div>
+        <div class="menu-item"><span class="menu-item-name">Karkalec Viola</span><span class="menu-item-dots"></span><span class="menu-item-price">7,000</span></div>
+        <div class="menu-item"><span class="menu-item-name">Ton / Kerr</span><span class="menu-item-dots"></span><span class="menu-item-price">4,000</span></div>
+        <div class="menu-item"><span class="menu-item-name">Salmon / Skampi</span><span class="menu-item-dots"></span><span class="menu-item-price">4,000 / 7,000</span></div>
+        <div class="menu-item"><span class="menu-item-name">Fileto Kerri</span><span class="menu-item-dots"></span><span class="menu-item-price">5,300</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- WINE -->
+  <div class="menu-content" id="tab-wine">
+    <div class="menu-full-page">
+      <div class="wine-note">Kantina jonë ofron një zgjedhje të gjerë verërash të importuara dhe vendëse,<br>të zgjedhura me kujdes për të plotësuar shijen e kuzhinës sonë detare.</div>
+      <div class="menu-grid">
+        <div class="menu-category fade-in">
+          <h3 class="menu-cat-title">Kantina e Verës</h3>
+          <div class="menu-item"><span class="menu-item-name">Vera Alteo 0.5L (bardhë/kuqe)</span><span class="menu-item-dots"></span><span class="menu-item-price">500 L/litër</span></div>
+          <div class="menu-item"><span class="menu-item-name">Vera Alteo 1L (bardhë/kuqe)</span><span class="menu-item-dots"></span><span class="menu-item-price">1,000 L/litër</span></div>
+          <div class="menu-item"><span class="menu-item-name">Gotë vere</span><span class="menu-item-dots"></span><span class="menu-item-price">300 L</span></div>
+          <div class="menu-item"><span class="menu-item-name">Shërbim extra vere</span><span class="menu-item-dots"></span><span class="menu-item-price">500 L</span></div>
+        </div>
+        <div class="menu-category fade-in">
+          <h3 class="menu-cat-title">Birra</h3>
+          <div class="menu-item"><span class="menu-item-name">Radeberger</span><span class="menu-item-dots"></span><span class="menu-item-price">500 L</span></div>
+          <div class="menu-item"><span class="menu-item-name">Heineken</span><span class="menu-item-dots"></span><span class="menu-item-price">350 L</span></div>
+          <div class="menu-item"><span class="menu-item-name">Peroni</span><span class="menu-item-dots"></span><span class="menu-item-price">300 L</span></div>
+          <div class="menu-item"><span class="menu-item-name">Bavaria 0%</span><span class="menu-item-dots"></span><span class="menu-item-price">300 L</span></div>
+          <div class="menu-item"><span class="menu-item-name">Rakia</span><span class="menu-item-dots"></span><span class="menu-item-price">200 L</span></div>
+          <div class="menu-item"><span class="menu-item-name">Schofferhofer</span><span class="menu-item-dots"></span><span class="menu-item-price">500 L</span></div>
+          <div class="menu-item"><span class="menu-item-name">Amaro / Uzo</span><span class="menu-item-dots"></span><span class="menu-item-price">500 / 400 L</span></div>
+        </div>
+        <div class="menu-category fade-in">
+          <h3 class="menu-cat-title">Verë e Bardhë Shishe</h3>
+          <div class="menu-item"><span class="menu-item-name">Fiano Puglia</span><span class="menu-item-dots"></span><span class="menu-item-price">2,800 L</span></div>
+          <div class="menu-item"><span class="menu-item-name">Pianoro</span><span class="menu-item-dots"></span><span class="menu-item-price">2,500 L</span></div>
+          <div class="menu-item"><span class="menu-item-name">Cadei Frati</span><span class="menu-item-dots"></span><span class="menu-item-price">4,700 L</span></div>
+          <div class="menu-item"><span class="menu-item-name">Gewurztraminer</span><span class="menu-item-dots"></span><span class="menu-item-price">3,400 L</span></div>
+          <div class="menu-item"><span class="menu-item-name">Greco Mastroberardino</span><span class="menu-item-dots"></span><span class="menu-item-price">3,400 L</span></div>
+          <div class="menu-item"><span class="menu-item-name">Pelium Muskat / Chardonnay</span><span class="menu-item-dots"></span><span class="menu-item-price">2,500 L</span></div>
+          <div class="menu-item"><span class="menu-item-name">Shesh I Bardhe</span><span class="menu-item-dots"></span><span class="menu-item-price">2,800 L</span></div>
+          <div class="menu-item"><span class="menu-item-name">Pinot Grigio / Greco di tufo</span><span class="menu-item-dots"></span><span class="menu-item-price">2,700 L</span></div>
+          <div class="menu-item"><span class="menu-item-name">Donna Luce</span><span class="menu-item-dots"></span><span class="menu-item-price">5,000 L</span></div>
+          <div class="menu-item"><span class="menu-item-name">Proseco</span><span class="menu-item-dots"></span><span class="menu-item-price">2,600 L</span></div>
+          <div class="menu-item"><span class="menu-item-name">Zambra</span><span class="menu-item-dots"></span><span class="menu-item-price">16,000 L</span></div>
+          <div class="menu-item"><span class="menu-item-name">Solaris</span><span class="menu-item-dots"></span><span class="menu-item-price">10,000 L</span></div>
+        </div>
+        <div class="menu-category fade-in">
+          <h3 class="menu-cat-title">Verë e Kuqe Shishe</h3>
+          <div class="menu-item"><span class="menu-item-name">Chianti Riserva</span><span class="menu-item-dots"></span><span class="menu-item-price">2,700 L</span></div>
+          <div class="menu-item"><span class="menu-item-name">Governo Toscana</span><span class="menu-item-dots"></span><span class="menu-item-price">2,500 L</span></div>
+          <div class="menu-item"><span class="menu-item-name">Montepulciano d'abruzzo</span><span class="menu-item-dots"></span><span class="menu-item-price">2,300 L</span></div>
+          <div class="menu-item"><span class="menu-item-name">Amarone Valpolicella</span><span class="menu-item-dots"></span><span class="menu-item-price">8,000 L</span></div>
+          <div class="menu-item"><span class="menu-item-name">Barolo Riserva</span><span class="menu-item-dots"></span><span class="menu-item-price">20,000 L</span></div>
+          <div class="menu-item"><span class="menu-item-name">Collesero</span><span class="menu-item-dots"></span><span class="menu-item-price">2,200 L</span></div>
+          <div class="menu-item"><span class="menu-item-name">Primitivo di Manduria</span><span class="menu-item-dots"></span><span class="menu-item-price">17,000 L</span></div>
+          <div class="menu-item"><span class="menu-item-name">Terre Da Vino Barolo</span><span class="menu-item-dots"></span><span class="menu-item-price">7,000 L</span></div>
+          <div class="menu-item"><span class="menu-item-name">Papale</span><span class="menu-item-dots"></span><span class="menu-item-price">5,000 L</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DESSERTS -->
+  <div class="menu-content" id="tab-dessert">
+    <div style="max-width: 600px; margin: 60px auto;">
+      <div class="menu-category fade-in" style="border: none; padding: 0;">
+        <h3 class="menu-cat-title" style="text-align:center;font-size:32px;letter-spacing:4px;">Ëmbëlsirat</h3>
+        <div class="menu-item"><span class="menu-item-name">Cheesecake</span><span class="menu-item-dots"></span><span class="menu-item-price">350 L</span></div>
+        <div class="menu-item"><span class="menu-item-name">Panna Cotta</span><span class="menu-item-dots"></span><span class="menu-item-price">350 L</span></div>
+        <div class="menu-item"><span class="menu-item-name">Ëmbëlsira Chef</span><span class="menu-item-dots"></span><span class="menu-item-price">500 L</span></div>
+        <div class="menu-item"><span class="menu-item-name">Sorbeto</span><span class="menu-item-dots"></span><span class="menu-item-price">200 L</span></div>
+        <div class="menu-item"><span class="menu-item-name">Sallam Çokollate</span><span class="menu-item-dots"></span><span class="menu-item-price">350 L</span></div>
+        <div class="menu-item"><span class="menu-item-name">Sufle</span><span class="menu-item-dots"></span><span class="menu-item-price">350 L</span></div>
+        <div class="menu-item"><span class="menu-item-name">Pije Freskuese</span><span class="menu-item-dots"></span><span class="menu-item-price">–</span></div>
+        <div class="menu-item"><span class="menu-item-name">Ujë Qelq 0.75L</span><span class="menu-item-dots"></span><span class="menu-item-price">200 L</span></div>
+        <div class="menu-item"><span class="menu-item-name">Pije (cola, fanta, lemon soda, sprite)</span><span class="menu-item-dots"></span><span class="menu-item-price">250 L</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GALLERY -->
+<section id="gallery">
+  <div class="gallery">
+    <div class="gallery-item">
+      <div class="gallery-placeholder">🦞</div>
+      <div class="gallery-overlay"><span class="gallery-label">Arragosta e Freskët</span></div>
+    </div>
+    <div class="gallery-item">
+      <div class="gallery-placeholder">🍷</div>
+      <div class="gallery-overlay"><span class="gallery-label">Kantina e Verës</span></div>
+    </div>
+    <div class="gallery-item">
+      <div class="gallery-placeholder">🐙</div>
+      <div class="gallery-overlay"><span class="gallery-label">Oktapod i Grirë</span></div>
+    </div>
+    <div class="gallery-item">
+      <div class="gallery-placeholder">🌿</div>
+      <div class="gallery-overlay"><span class="gallery-label">Ambienti Elegant</span></div>
+    </div>
+    <div class="gallery-item">
+      <div class="gallery-placeholder">🐟</div>
+      <div class="gallery-overlay"><span class="gallery-label">Peshk nga Deti</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT + RESERVATION -->
+<section class="contact" id="contact">
+  <div class="contact-info fade-in">
+    <span class="section-label">✦ Na Kontaktoni</span>
+    <h2 class="section-title">Na <em>Gjeni</em></h2>
+    <div class="divider"></div>
+    <div class="contact-detail">
+      <div class="contact-row">
+        <div class="contact-icon">📍</div>
+        <div>
+          <div class="contact-label">Adresa</div>
+          <div class="contact-val">Rruga Kujtim Laro, Nr. 30<br>Tiranë, Shqipëri</div>
+        </div>
+      </div>
+      <div class="contact-row">
+        <div class="contact-icon">📞</div>
+        <div>
+          <div class="contact-label">Telefon</div>
+          <div class="contact-val"><a href="tel:+355697030602">069 703 0602</a></div>
+        </div>
+      </div>
+      <div class="contact-row">
+        <div class="contact-icon">🛵</div>
+        <div>
+          <div class="contact-label">Delivery</div>
+          <div class="contact-val">
+            <a href="tel:+355696191212">0696 191212</a><br>
+            <a href="tel:+355699935107">0699 935107</a>
+          </div>
+        </div>
+      </div>
+      <div class="contact-row">
+        <div class="contact-icon">🕐</div>
+        <div>
+          <div class="contact-label">Orari i Punës</div>
+          <div class="contact-val">12:00 – 23:00</div>
+          <div class="info-sub" style="color:var(--text-muted);font-size:12px;margin-top:4px;">Çdo ditë</div>
+        </div>
+      </div>
+      <div class="contact-row">
+        <div class="contact-icon">📱</div>
+        <div>
+          <div class="contact-label">Social Media</div>
+          <div class="contact-val"><a href="https://instagram.com/restorantalteo" target="_blank">@restorantalteo</a></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="reservation-form fade-in" id="reservation">
+    <h3 class="form-title">Rezervo <em style="font-family:'Cormorant Garamond',serif;font-style:italic;color:var(--gold);">Tavolinë</em></h3>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">Emri & Mbiemri</label>
+        <input type="text" class="form-input" placeholder="Emri juaj">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Numri i Telefonit</label>
+        <input type="tel" class="form-input" placeholder="+355 6X XXX XXXX">
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">Data</label>
+        <input type="date" class="form-input">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Ora</label>
+        <input type="time" class="form-input" min="12:00" max="22:30">
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Numri i Personave</label>
+      <input type="number" class="form-input" placeholder="Sa persona?" min="1" max="30">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Shënime (opsionale)</label>
+      <textarea class="form-input" rows="3" placeholder="Kërkesa të veçanta..."></textarea>
+    </div>
+    <button class="btn-submit" onclick="handleReservation()">Konfirmo Rezervimin</button>
+  </div>
+</section>
+
+<!-- MAP -->
+<div class="map-section">
+  <div class="map-grid-bg"></div>
+  <div class="map-overlay-text fade-in">
+    <span class="section-label">✦ Na Gjeni Lehtë</span>
+    <div class="map-address">Rruga Kujtim Laro, Nr. 30 · Tiranë</div>
+    <a href="https://maps.google.com/?q=Rruga+Kujtim+Laro+30+Tirana+Albania" target="_blank" class="map-link">Hap në Google Maps →</a>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div>
+    <div class="footer-logo">ALTEO</div>
+    <div class="footer-tagline">Freskia e Detit në Tavolinat Tona</div>
+    <div class="footer-copy" style="margin-top:12px;">© 2025 Restorant Alteo. Të gjitha të drejtat e rezervuara.</div>
+  </div>
+  <ul class="footer-links">
+    <li><a href="#about">Rreth Nesh</a></li>
+    <li><a href="#menu">Menu</a></li>
+    <li><a href="#contact">Kontakt</a></li>
+    <li><a href="#reservation">Rezervim</a></li>
+  </ul>
+  <div>
+    <div class="footer-social">
+      <a href="https://instagram.com/restorantalteo" target="_blank" class="social-link">📸</a>
+      <a href="tel:+355697030602" class="social-link">📞</a>
+      <a href="https://linktr.ee/restorantalteo" target="_blank" class="social-link">🔗</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Custom cursor
+  const cursor = document.getElementById('cursor');
+  const ring = document.getElementById('cursorRing');
+  document.addEventListener('mousemove', e => {
+    cursor.style.left = e.clientX + 'px';
+    cursor.style.top = e.clientY + 'px';
+    setTimeout(() => {
+      ring.style.left = e.clientX + 'px';
+      ring.style.top = e.clientY + 'px';
+    }, 80);
+  });
+
+  // Nav scroll
+  window.addEventListener('scroll', () => {
+    document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 50);
+  });
+
+  // Menu tabs
+  function switchTab(id) {
+    document.querySelectorAll('.menu-tab').forEach((t,i) => {
+      t.classList.toggle('active', ['starters','fish','wine','dessert'][i] === id);
+    });
+    document.querySelectorAll('.menu-content').forEach(c => c.classList.remove('active'));
+    document.getElementById('tab-' + id).classList.add('active');
+  }
+
+  // Fade in on scroll
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+  // Reservation
+  function handleReservation() {
+    const btn = document.querySelector('.btn-submit');
+    btn.textContent = '✓ Rezervimi u Dërgua!';
+    btn.style.background = '#4a9463';
+    btn.style.color = '#fff';
+    setTimeout(() => {
+      btn.textContent = 'Konfirmo Rezervimin';
+      btn.style.background = '';
+      btn.style.color = '';
+    }, 3000);
+  }
+</script>
+</body>
+</html>
